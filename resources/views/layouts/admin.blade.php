@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <title>{{ config('app.name', 'Laravel') }}</title>
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+
+        <style>
+        @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+        .font-family-karla { font-family: karla; }
+        .bg-sidebar { background: #3d68ff; }
+        .cta-btn { color: #3d68ff; }
+        .upgrade-btn { background: #1947ee; }
+        .upgrade-btn:hover { background: #0038fd; }
+        .active-nav-link { background: #1947ee; }
+        .nav-item:hover { background: #1947ee; }
+        .account-link:hover { background: #3d68ff; }
+    </style>
+
+        @livewireStyles
+
+        <!-- Scripts -->
+        <script src="{{ mix('js/app.js') }}" defer></script>
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
+    </head>
+    <body class="bg-gray-100 font-family-karla flex">
+
+<aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
+    <div class="md:flex flex-col md:flex-row md:min-h-screen w-full">
+    <div @click.away="open = false" class="flex flex-col w-full md:w-64 text-gray-700 bg-sidebar dark-mode:text-gray-200 dark-mode:bg-gray-800 flex-shrink-0" x-data="{ open: false }">
+    <div class="flex-shrink-0 px-8 py-4 flex flex-row items-center justify-between">
+      <a href="#" class="text-lg font-semibold tracking-widest text-white uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline">UNDIKSHA</a>
+      <button class="rounded-lg md:hidden rounded-lg focus:outline-none focus:shadow-outline" @click="open = !open">
+        <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
+          <path x-show="!open" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+          <path x-show="open" fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+        </svg>
+      </button>
+    </div>
+    <nav :class="{'block': open, 'hidden': !open}" class="flex-grow md:block px-4 pb-4 md:pb-0 md:overflow-y-auto">
+      <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-blue-700 rounded-lg dark-mode:bg-gray-700 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-white focus:text-white hover:bg-opacity-100 focus:bg-gray-200 focus:outline-none focus:shadow-outline nav-link-active" href="{{ route('dashboard')}}">
+      Dashboard
+      </a>
+
+      <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-white focus:text-white hover:bg-blue-700 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="{{ route('alumniSync')}}">
+        Syncronize Data
+      </a>
+      <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-white focus:text-white hover:bg-blue-700 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">Alumni</a>
+      <a class="block px-4 py-2 mt-2 text-sm font-semibold text-white bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-white focus:text-white hover:bg-blue-700 focus::bg-blue-700 focus:outline-none focus:shadow-outline" href="#">Contact</a>
+      <div @click.away="open = false" class="relative" x-data="{ open: false }">
+        <button @click="open = !open" class="text-white  flex flex-row items-center w-full px-4 py-2 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:focus:bg-gray-600 dark-mode:hover:bg-gray-600 md:block hover:text-white focus:text-white hover:bg-blue-700 focus::bg-blue-700 focus:outline-none focus:shadow-outline">
+          <span>Fakultas</span>
+          <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}" class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+        </button>
+        <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg">
+          <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800"> 
+                <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:nav-item:hover focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="{{ route('alumniFIP')}}">Ilmu Pendidikan</a>
+                <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:nav-item:hover focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">Bahasa dan Seni</a>
+                <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:nav-item:hover focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">Matematika dan Ilmu Pengetahuan Alam"</a>
+                <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:nav-item:hover focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">Hukum dan Ilmu Sosial</a>
+                <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:nav-item:hover focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="{{ route('alumniFTK')}}">Teknik dan Kejuruan</a>
+                <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:nav-item:hover focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">Olahraga dan Kesehatan</a>
+                <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:nav-item:hover focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">Ekonomi</a>
+                <a class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:nav-item:hover focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">Kedokteran</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>
+</aside>
+
+<div class="w-full flex flex-col h-screen overflow-y-hidden">
+    <!-- Desktop Header -->
+    <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
+        <div class="w-1/2"></div>
+        <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
+            <button @click="isOpen = !isOpen" class="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
+                <img src="https://source.unsplash.com/uJ8LNVCBjFQ/400x400">
+            </button>
+            <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
+            <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
+                <a href="#" class="block px-4 py-2 account-link hover:text-white">Account</a>
+                <a href="#" class="block px-4 py-2 account-link hover:text-white">Support</a>
+                <a href="#" class="block px-4 py-2 account-link hover:text-white">Sign Out</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Header & Nav -->
+    <header x-data="{ isOpen: false }" class="w-full bg-sidebar py-5 px-6 sm:hidden">
+        <div class="flex items-center justify-between">
+            <a href="index.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
+            <button @click="isOpen = !isOpen" class="text-white text-3xl focus:outline-none">
+                <i x-show="!isOpen" class="fas fa-bars"></i>
+                <i x-show="isOpen" class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Dropdown Nav -->
+        <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
+            <a href="index.html" class="flex items-center active-nav-link text-white py-2 pl-4 nav-item">
+                <i class="fas fa-tachometer-alt mr-3"></i>
+                Dashboard
+            </a>
+            <a href="blank.html" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                <i class="fas fa-sticky-note mr-3"></i>
+                Blank Page
+            </a>
+            <a href="tables.html" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                <i class="fas fa-table mr-3"></i>
+                Tables
+            </a>
+            <a href="forms.html" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                <i class="fas fa-align-left mr-3"></i>
+                Forms
+            </a>
+            <a href="tabs.html" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                <i class="fas fa-tablet-alt mr-3"></i>
+                Tabbed Content
+            </a>
+            <a href="calendar.html" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                <i class="fas fa-calendar mr-3"></i>
+                Calendar
+            </a>
+            <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                <i class="fas fa-cogs mr-3"></i>
+                Support
+            </a>
+            <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                <i class="fas fa-user mr-3"></i>
+                My Account
+            </a>
+            <a href="#" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                <i class="fas fa-sign-out-alt mr-3"></i>
+                Sign Out
+            </a>
+            
+        </nav>
+        <!-- <button class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
+            <i class="fas fa-plus mr-3"></i> New Report
+        </button> -->
+    </header>
+
+    <div class="w-full overflow-x-hidden border-t flex flex-col">
+        <main class="w-full flex-grow p-6">
+        {{ $slot }}
+        </main>
+
+        <footer class="w-full bg-white text-right p-4">
+           <a target="_blank" href="https://davidgrzyb.com" class="underline"></a>.
+        </footer>
+    </div>
+    
+</div>
+
+<!-- AlpineJS -->
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+<!-- Font Awesome -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+<!-- ChartJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+<!-- <script src="{{ asset('js/charts-bars.js') }}"></script> -->
+<script src="{{ asset('js/charts-lines.js') }}"></script>
+@livewireScripts
+</body>
+</html>
