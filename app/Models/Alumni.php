@@ -29,6 +29,7 @@ class Alumni extends Model
         
 
         $result = json_decode($response->body());
+
         foreach($result->datas as $alumni){
 
             $newAlumni = \App\Models\Alumni::updateOrCreate([   
