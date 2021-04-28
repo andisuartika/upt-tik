@@ -12,6 +12,7 @@ class Alumni extends Model
     use HasFactory;
     protected $guarded = [];
 
+
     public static function alumniSync(){
         // login
         $login = Http::post('https://datacenter.undiksha.ac.id/sandbox/api/login', [
@@ -22,7 +23,7 @@ class Alumni extends Model
         $result = json_decode($login);
         $token = $result->token;
 
-        $response = \Http::withHeaders([
+        $response = Http::withHeaders([
             'token' => $token,
             'model' => 'jumlah_alumni'
         ])->get('https://datacenter.undiksha.ac.id/sandbox/api/biosdata');
@@ -49,14 +50,27 @@ class Alumni extends Model
         
     }
 
+    public static function alumni(){
+        $tgl = date('Y-m-d');
+        $alumni =DB::table('alumnis')
+        ->select('bekerja','belum_bekerja','lanjut_kuliah')    
+        ->where('tgl_transaksi','=',$tgl);
+        return $alumni;
+    }
+
     public static function alumniFakultas($fakultas){
+        $tgl = date('Y-m-d');
+
         $alumni =DB::table('alumnis')
         ->join('prodis', 'alumnis.prodi', '=', 'prodis.kode_prodi')
-        ->select('alumnis.*','prodis.nama','prodis.nama_jurusan')
+        ->join('fakultas', 'alumnis.fakultas', '=', 'fakultas.kode_fakultas')
+        ->select('alumnis.*','prodis.nama as nama_prodi','prodis.nama_jurusan','prodis.slug_prodi','fakultas.nama as nama_fakultas')    
         ->where('alumnis.fakultas','=',$fakultas)
-        ->orderByDesc('alumnis.tgl_transaksi')
-        ->paginate(10, array('alumnis.*', 'prodis.nama', 'prodis.nama_jurusan'));;
+        ->where('alumnis.tgl_transaksi','=',$tgl)
+        ->orderBy('alumnis.tgl_transaksi', 'desc')
+        ->paginate(5, array('alumnis.*','fakultas.*'));
 
+        
         return $alumni;
     }
 

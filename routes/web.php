@@ -23,11 +23,19 @@ Route::get('/', function () {
 //     return view('dashboard');
 // })->name('dashboard');
 
-Route::get('/dashboard', [AlumniController::class,'index'])->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->group(function(){
+    Route::get('/dashboard', [AlumniController::class,'index'])->name('dashboard');
+    
+    Route::get('/alumni/syncalumni', [AlumniController::class,'syncAlumni'])->name('syncAlumni');
+    
+    Route::get('/fakultas/{id}', [AlumniController::class,'alumniFakultas'])->name('alumni');
 
-Route::get('/alumni/sync', [AlumniController::class,'syncAlumni'])->name('alumniSync');
+    Route::get('/sync', [AlumniController::class,'sync'])->name('sync');
 
-Route::get('/fakultas/ftk', [AlumniController::class, 'alumniFtk'])->name('alumniFTK');
+    Route::get('/dashboard', [AlumniController::class,'alumni'])->name('dashboard');
+});
 
-Route::get('/fakultas/fip', [AlumniController::class, 'alumniFip'])->name('alumniFIP');
+
+
+// Route::get('/fakultas/fip', [AlumniController::class, 'alumniFip'])->name('alumniFIP');
 
