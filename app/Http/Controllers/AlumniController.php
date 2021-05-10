@@ -19,7 +19,7 @@ class AlumniController extends Controller
     }
 
     public function index(){
-
+        
     }
 
     public function alumniFakultas($id){
@@ -101,7 +101,7 @@ class AlumniController extends Controller
              // sync API to DB Alumni
              Alumni::alumniSync();
          }
-        return view('dashboard', compact('alumnis','alumni'));
+        return view('alumni.alumni', compact('alumnis','alumni'));
     }
 
 }

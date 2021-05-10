@@ -1,262 +1,162 @@
-<?php  $tgl=date('Y-m-d');?>
-<x-Admin-layout>
-@include('alert')
-    <div class="py-2">
-                <h1 class="text-3xl text-black">Dashboard Alumni</h1>
-                <p>Data Pertanggal <b>{{$tgl}}</b></p>
-                <div class="flex flex-wrap mt-6">
-                    <div class="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
-                        <p class="text-xl pb-3 flex items-center">
-                            <i class="fas fa-check mr-3"></i> Data Seluruh Alumni UNDIKSHA
-                        </p>
-                        <div class="min-w-0  px-4 py-4  mr-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                            <canvas id="pie"></canvas>
-                            <div
-                              class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400"
-                            >
-                              <!-- Chart legend -->
-                              <div class="flex items-center">
-                                <span
-                                  class="inline-block w-3 h-3 mr-1 bg-blue-600 rounded-full"
-                                ></span>
-                                <span>Belum Bekerja</span>
-                              </div>
-                              <div class="flex items-center">
-                                <span
-                                  class="inline-block w-3 h-3 mr-1 bg-green-500 rounded-full"
-                                ></span>
-                                <span>Bekerja</span>
-                              </div>
-                              <div class="flex items-center">
-                                <span
-                                  class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"
-                                ></span>
-                                <span>Melanjutkan</span>
-                              </div>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
-                        <p class="text-xl pb-3 flex items-center">
-                            <i class="fas fa-plus mr-3"></i> Data Alumni UNDIKSHA Fakultas
-                        </p>
-                        <div class="min-w-0 px-4 py-4  bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                            <canvas id="bars"></canvas>
-                            <div
-                              class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400"
-                            >
-                              <!-- Chart legend -->
-                              <div class="flex items-center">
-                                <span
-                                  class="inline-block w-3 h-3 mr-1 bg-blue-600 rounded-full"
-                                ></span>
-                                <span>Belum Bekerja</span>
-                              </div>
-                              <div class="flex items-center">
-                                <span
-                                  class="inline-block w-3 h-3 mr-1 bg-green-500 rounded-full"
-                                ></span>
-                                <span>Bekerja</span>
-                              </div>
-                              <div class="flex items-center">
-                                <span
-                                  class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"
-                                ></span>
-                                <span>Melanjutkan</span>
-                              </div>
-                            </div>
-                          </div>
-                    </div>
-                    
-                </div>
-                
-        <!-- table -->
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+  <script>
+    var cont=0;
+    function loopSlider(){
+      var xx= setInterval(function(){
+            switch(cont)
+            {
+            case 0:{
+                $("#slider-1").fadeOut(400);
+                $("#slider-2").delay(400).fadeIn(400);
+                $("#sButton1").removeClass("bg-blue-800");
+                $("#sButton2").addClass("bg-blue-800");
+            cont=1;
+            
+            break;
+            }
+            case 1:
+            {
+            
+                $("#slider-2").fadeOut(400);
+                $("#slider-1").delay(400).fadeIn(400);
+                $("#sButton2").removeClass("bg-blue-800");
+                $("#sButton1").addClass("bg-blue-800");
+              
+            cont=0;
+            
+            break;
+            }
+            
+            
+            }},8000);
 
-        <div class=" overflow-auto mt-10">
-            <h1 class="py-4 px-2">Tabel Alumni Berdasarkan Fakultas</h1>
-            <table class="bg-white text-left w-full border-collapse"> <!--Border collapse doesn't work on this site yet but it's available in newer tailwind versions -->
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">No</th>
-                        <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">Fakultas</th>
-                        <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">Bekerja</th>
-                        <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">Belum Bekerja</th>
-                        <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">Lanjut Kuliah</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="hover:bg-grey-lighter">
-                        <td class="py-4 px-6 border-b border-grey-light">1</td>
-                        <td class="py-4 px-6 border-b border-grey-light">	
-                            Fakultas Ilmu Pendidikan
-                        </td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fip']['bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fip']['belum_bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fip']['lanjut_kuliah']}}</td>
-                    </tr>
-                    <tr class="hover:bg-grey-lighter">
-                        <td class="py-4 px-6 border-b border-grey-light">2</td>
-                        <td class="py-4 px-6 border-b border-grey-light">	
-                            Fakultas Bahasa dan Seni
-                        </td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fbs']['bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fbs']['belum_bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fbs']['lanjut_kuliah']}}</td>
-                    </tr>
-                    <tr class="hover:bg-grey-lighter">
-                        <td class="py-4 px-6 border-b border-grey-light">3</td>
-                        <td class="py-4 px-6 border-b border-grey-light">	
-                            Fakultas Matematika dan Ilmu Pengetahuan Alam
-                        </td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fmipa']['bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fmipa']['belum_bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fmipa']['lanjut_kuliah']}}</td>
-                    </tr>
-                    <tr class="hover:bg-grey-lighter">
-                        <td class="py-4 px-6 border-b border-grey-light">4</td>
-                        <td class="py-4 px-6 border-b border-grey-light">	
-                            Fakultas Hukum dan Ilmu Sosial
-                        </td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fhis']['bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fhis']['belum_bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fhis']['lanjut_kuliah']}}</td>
-                    </tr>
-                    <tr class="hover:bg-grey-lighter">
-                        <td class="py-4 px-6 border-b border-grey-light">5</td>
-                        <td class="py-4 px-6 border-b border-grey-light">	
-                            Fakultas Teknik dan Kejuruan
-                        </td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['ftk']['bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['ftk']['belum_bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['ftk']['lanjut_kuliah']}}</td>
-                    </tr>
-                    <tr class="hover:bg-grey-lighter">
-                        <td class="py-4 px-6 border-b border-grey-light">6</td>
-                        <td class="py-4 px-6 border-b border-grey-light">	
-                            Fakultas Olahraga dan Kesehatan
-                        </td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fok']['bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fok']['belum_bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fok']['lanjut_kuliah']}}</td>
-                    </tr>
-                    <tr class="hover:bg-grey-lighter">
-                        <td class="py-4 px-6 border-b border-grey-light">7</td>
-                        <td class="py-4 px-6 border-b border-grey-light">	
-                            Pascasarjana
-                        </td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['pasca']['bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['pasca']['belum_bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['pasca']['lanjut_kuliah']}}</td>
-                    </tr>
-                    <tr class="hover:bg-grey-lighter">
-                        <td class="py-4 px-6 border-b border-grey-light">8</td>
-                        <td class="py-4 px-6 border-b border-grey-light">	
-                            Fakultas Ekonomi
-                        </td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fe']['bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fe']['belum_bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fe']['lanjut_kuliah']}}</td>
-                    </tr>
-                    <tr class="hover:bg-grey-lighter">
-                        <td class="py-4 px-6 border-b border-grey-light">9</td>
-                        <td class="py-4 px-6 border-b border-grey-light">	                     	
-                            Fakultas Kedokteran
-                        </td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fk']['bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fk']['belum_bekerja']}}</td>
-                        <td class="py-4 px-6 border-b border-grey-light">{{$alumnis['fk']['lanjut_kuliah']}}</td>
-                    </tr>
-                </tbody>
-            </table>
-          </div>
-
-          {{-- End Table --}}
-    </div>
-</x-Admin-layout>
-    <script>
-        /**
- * For usage, visit Chart.js docs https://www.chartjs.org/docs/latest/
- */
- const barConfig = {
-    type: 'bar',
-    data: {
-        labels: [
-            "FIP",
-            "FBS",
-            "FMIPA",
-            "FHIS",
-            "FTK",
-            "FOK",
-            "PASCA",
-            "FE",
-            "FK"
-        ],
-        datasets: [
-        {
-            label: 'Bekerja',
-            backgroundColor: '#10B981',
-            // borderColor: window.chartColors.red,
-            borderWidth: 1,
-            data: [
-                "{{$alumnis['fip']['bekerja']}}",
-                "{{$alumnis['fbs']['bekerja']}}",
-                "{{$alumnis['fmipa']['bekerja']}}",
-                "{{$alumnis['fhis']['bekerja']}}",
-                "{{$alumnis['ftk']['bekerja']}}",
-                "{{$alumnis['fok']['bekerja']}}",
-                "{{$alumnis['pasca']['bekerja']}}",
-                "{{$alumnis['fe']['bekerja']}}",
-                "{{$alumnis['fk']['bekerja']}}",
-            ],
-        },
-        {
-            label: 'Melanjutkan',
-            backgroundColor: '#7e3af2',
-            // borderColor: window.chartColors.blue,
-            borderWidth: 1,
-            data: [
-                "{{$alumnis['fip']['lanjut_kuliah']}}",
-                "{{$alumnis['fbs']['lanjut_kuliah']}}",
-                "{{$alumnis['fmipa']['lanjut_kuliah']}}",
-                "{{$alumnis['fhis']['lanjut_kuliah']}}",
-                "{{$alumnis['ftk']['lanjut_kuliah']}}",
-                "{{$alumnis['fok']['lanjut_kuliah']}}",
-                "{{$alumnis['pasca']['lanjut_kuliah']}}",
-                "{{$alumnis['fe']['lanjut_kuliah']}}",
-                "{{$alumnis['fk']['lanjut_kuliah']}}",
-            ],
-        },
-        {
-            label: 'Belum Bekerja',
-            backgroundColor: '#1c64f2',
-            // borderColor: window.chartColors.blue,
-            borderWidth: 1,
-            data: [
-                "{{$alumnis['fip']['belum_bekerja']}}",
-                "{{$alumnis['fbs']['belum_bekerja']}}",
-                "{{$alumnis['fmipa']['belum_bekerja']}}",
-                "{{$alumnis['fhis']['belum_bekerja']}}",
-                "{{$alumnis['ftk']['belum_bekerja']}}",
-                "{{$alumnis['fok']['belum_bekerja']}}",
-                "{{$alumnis['pasca']['belum_bekerja']}}",
-                "{{$alumnis['fe']['belum_bekerja']}}",
-                "{{$alumnis['fk']['belum_bekerja']}}",
-            ],
-        },
-        ],
-    },
-    options: {
-        responsive: true,
-        legend: {
-        display: false,
-        },
-    },
     }
 
-    const barsCtx = document.getElementById('bars')
-    window.myBar = new Chart(barsCtx, barConfig)
+    function reinitLoop(time){
+    clearInterval(xx);
+    setTimeout(loopSlider(),time);
+    }
 
-// Chart Pie
+
+
+    function sliderButton1(){
+
+        $("#slider-2").fadeOut(400);
+        $("#slider-1").delay(400).fadeIn(400);
+        $("#sButton2").removeClass("bg-blue-800");
+        $("#sButton1").addClass("bg-blue-800");
+        reinitLoop(4000);
+        cont=0
+        
+        }
+        
+        function sliderButton2(){
+        $("#slider-1").fadeOut(400);
+        $("#slider-2").delay(400).fadeIn(400);
+        $("#sButton1").removeClass("bg-blue-800");
+        $("#sButton2").addClass("bg-blue-800");
+        reinitLoop(4000);
+        cont=1
+        
+        }
+
+        $(window).ready(function(){
+            $("#slider-2").hide();
+            $("#sButton1").addClass("bg-blue-800");         
+
+            loopSlider();
+    });
+
+  </script>
+<x-Admin-layout>
+    <div class="sliderAx h-auto">
+        <div id="slider-1" class="container mx-auto">
+          <div class="bg-cover bg-center  h-auto text-white py-24 px-10 object-fill" style="background-image: url(https://akademik.undiksha.ac.id/wp-content/uploads/2017/09/Wisuda-November-2017-Undiksha-2.jpg)">
+         <div class="md:w-1/2">
+          <p class="font-bold text-sm ">Selamat Datang</p>
+          <p class="text-3xl font-bold">Dashboard Alumni</p>
+          <p class="text-2xl mb-10 leading-none">Data Alumni Mahasiswa Undiksha</p>
+          <a href="{{ route('alumni') }}" class="bg-blue-800 py-4 px-8 text-white font-bold uppercase text-base rounded hover:bg-gray-200 hover:text-gray-800">Detail</a>
+          </div>  
+          </div> <!-- container -->
+        <br>
+      </div>
+  
+        <div id="slider-2" class="container mx-auto">
+          <div class="bg-cover bg-top  h-auto text-white py-24 px-10 object-fill" style="background-image: url(https://conference.undiksha.ac.id/gc-tale2019/assets/img/gedung%20undiksha.jpg)">
+         
+        <p class="font-bold text-sm ">Selamat Datang</p>
+        <p class="text-3xl font-bold">Dashboard Keuangan</p>
+        <p class="text-2xl mb-10 leading-none">Data Keuangan Realisasi dan Pagu Undiksha</p>
+        <a href="{{ route('keuangan') }}" class="bg-blue-800 py-4 px-8 text-white font-bold uppercase text-base rounded hover:bg-gray-200 hover:text-gray-800">Detail</a>
+           
+      </div> <!-- container -->
+        <br>
+        </div>
+      </div>
+    <div  class="flex justify-between w-12 mx-auto pb-2">
+          <button id="sButton1" onclick="sliderButton1()" class="bg-blue-400 rounded-full w-4 pb-2 " ></button>
+        <button id="sButton2" onclick="sliderButton2() " class="bg-blue-400 rounded-full w-4 p-2"></button>
+    </div>
+    
+    {{-- grafik --}}
+    <hr class="mt-4">
+    <div class="flex flex-wrap mt-10">
+      <div class="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
+          <p class="text-xl pb-3 flex items-center">
+              Data Alumni UNDIKSHA
+          </p>
+          <div class="min-w-0  px-4 py-4  mr-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+            <div class="mb-10 text-center">
+              <h2 class="text-xl">Data Alumni Undiksha</h2>
+              <?php  $tgl=date('d-m-Y');?>
+              <p>Pertanggal {{ $tgl }}</p>
+            </div>
+              <canvas id="pie"></canvas>
+              <div
+                class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400 mb-10"
+              >
+                <!-- Chart legend -->
+                <div class="flex items-center \">
+                  <span
+                    class="inline-block w-3 h-3 mr-1 bg-blue-600 rounded-full"
+                  ></span>
+                  <span>Belum Bekerja</span>
+                </div>
+                <div class="flex items-center">
+                  <span
+                    class="inline-block w-3 h-3 mr-1 bg-green-500 rounded-full"
+                  ></span>
+                  <span>Bekerja</span>
+                </div>
+                <div class="flex items-center">
+                  <span
+                    class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"
+                  ></span>
+                  <span>Melanjutkan</span>
+                </div>
+              </div>
+            </div>
+      </div> 
+      <div class="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
+          <p class="text-xl pb-3 flex items-center">
+              Data Keuangan Bulanan UNDIKSHA
+          </p>
+          <div class="min-w-0  px-4 py-4  mr-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+            <figure class="highcharts-figure">
+              <div id="chartKeuangan"></div>
+            </figure>
+            </div>
+      </div> 
+  </div>
+</x-Admin-layout>
+<script>
+
+      // Chart Pie
     /**
     * For usage, visit Chart.js docs https://www.chartjs.org/docs/latest/
     */
@@ -298,6 +198,97 @@
     window.myPie = new Chart(pieCtx, pieConfig)
 
     // end chart Pie
-    </script>
 
+    // chart4
+    Highcharts.chart('chartKeuangan', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Realisasi Belanja Bulanan'
+    },
+    subtitle: {
+        text: 'Source: Data-center Undiksha'
+    },
+    xAxis: {
+        categories: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec'
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Total (Rp)'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.2f} Rupiah</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Tahun 2017',
+        data: [
+            @foreach($realisasiBulan['2017'] as $realisasi2017)
+                    {{ $realisasi2017 }},
+            @endforeach
+        ]
 
+    }, {
+        name: 'Tahun 2018',
+        data: [
+            @foreach($realisasiBulan['2018'] as $realisasi2018)
+                    {{ $realisasi2018 }},
+            @endforeach
+        ]
+
+    }, {
+        name: 'Tahun 2019',
+        data: [
+            @foreach($realisasiBulan['2019'] as $realisasi2019)
+                    {{ $realisasi2019 }},
+            @endforeach
+        ]
+
+    }, {
+        name: 'Tahun 2020',
+        data: [
+            @foreach($realisasiBulan['2020'] as $realisasi2020)
+                    {{ $realisasi2020 }},
+            @endforeach
+        ]
+
+    }, {
+        name: 'Tahun 2021',
+        data: [
+            @foreach($realisasiBulan['2021'] as $realisasi2021)
+                    {{ $realisasi2021 }},
+            @endforeach
+        ]
+
+    }]
+});
+    // endchart4
+
+</script>

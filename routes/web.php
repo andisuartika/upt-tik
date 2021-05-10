@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\FakultasController;
+use App\Http\Controllers\KeuanganController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,15 +26,21 @@ Route::get('/', function () {
 // })->name('dashboard');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function(){
-    Route::get('/dashboard', [AlumniController::class,'index'])->name('dashboard');
+    Route::get('/dashboard', [HomeController::class,'index'])->name('dashboard');
     
     Route::get('/alumni/syncalumni', [AlumniController::class,'syncAlumni'])->name('syncAlumni');
     
-    Route::get('/fakultas/{id}', [AlumniController::class,'alumniFakultas'])->name('alumni');
+    Route::get('/alumniFakultas/{id}', [AlumniController::class,'alumniFakultas'])->name('alumniFakultas');
 
     Route::get('/sync', [AlumniController::class,'sync'])->name('sync');
 
-    Route::get('/dashboard', [AlumniController::class,'alumni'])->name('dashboard');
+    Route::get('/alumni', [AlumniController::class,'alumni'])->name('alumni');
+
+    Route::get('/keuangan', [KeuanganController::class,'index'])->name('keuangan');
+
+    Route::get('/keuangan/realisasi/akun', [KeuanganController::class,'realisasiAkun'])->name('realisasiAkun');
+
+    Route::get('/keuangan/realisasi/unit', [KeuanganController::class,'realisasiUnit'])->name('realisasiUnit');
 });
 
 

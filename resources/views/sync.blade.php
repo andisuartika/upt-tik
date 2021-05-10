@@ -49,4 +49,5 @@
                 </p>
             </div>
         </div>
+        <div style="margin-bottom: 190px"></div>
     </x-Admin-layout>
