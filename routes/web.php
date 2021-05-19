@@ -17,19 +17,13 @@ use App\Http\Controllers\KeuanganController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-//     return view('dashboard');
-// })->name('dashboard');
-
+// login
 Route::middleware(['auth:sanctum', 'verified'])->group(function(){
-    Route::get('/dashboard', [HomeController::class,'index'])->name('dashboard');
-    
+    Route::get('/', [HomeController::class,'index'])->name('dashboard');
+        
     Route::get('/alumni/syncalumni', [AlumniController::class,'syncAlumni'])->name('syncAlumni');
-    
+
     Route::get('/alumniFakultas/{id}', [AlumniController::class,'alumniFakultas'])->name('alumniFakultas');
 
     Route::get('/sync', [AlumniController::class,'sync'])->name('sync');
@@ -42,8 +36,3 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
 
     Route::get('/keuangan/realisasi/unit', [KeuanganController::class,'realisasiUnit'])->name('realisasiUnit');
 });
-
-
-
-// Route::get('/fakultas/fip', [AlumniController::class, 'alumniFip'])->name('alumniFIP');
-
